@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       http://code.alibabatech.com/schema/dubbo
+       http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+    
+    <!-- <bean id="userServiceImpl" class="org.springboot.dubbo.provider.UserServiceImpl"></bean>   -->
+    
+    <context:property-placeholder location="classpath:pros/dubbo-producer.properties" ignore-unresolvable="true"/>
+    
+    <!-- 1.指定服务/应用的名字 -->
+    <dubbo:application name="DubboProvider"></dubbo:application>
+    
+    <!-- 2.指定注册中心位置 -->
+    <dubbo:registry address="${dubbo-registry-address}" protocol="zookeeper"></dubbo:registry>
+    
+    <!-- 3.指定通信规则 -->
+    <dubbo:protocol name="dubbo" port="${dubbo-service-port}" accesslog="true"></dubbo:protocol>
+    
+    <!-- 4.暴露服务   ref指向服务的真正实现 -->
+    <!-- <dubbo:service interface="org.springboot.dubbo.api.service.UserService" ref="userServiceImpl"
+                   group="${dubbo-group}" version="${dubbo-version}" timeout="${dubbo-timeout}"></dubbo:service> -->
+              
+    <!-- 扫描注解包路径，多个包用逗号分隔，不填pacakge表示扫描当前ApplicationContext中所有的类 -->
+    <dubbo:annotation package="org.springboot.dubbo.provider"/>
+       
+	   
+</beans>
